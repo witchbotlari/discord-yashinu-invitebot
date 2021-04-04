@@ -3,11 +3,11 @@ const client = global.client = new Client({fetchAllMembers: true});
 const { botOwner, botPrefix, botToken, guildID, botVoiceChannelID, inviteChannelID, durum } = require('./ayarlar.json');
 const guildInvites = new Map();
 const mongoose = require('mongoose');
-mongoose.connect('', {useNewUrlParser: true, useUnifiedTopology: true});// Mongo connect linki
+mongoose.connect('mongodb+srv://sanane31:dwardwar64@cluster0.iwmsz.mongodb.net/sanane31?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true});// Mongo connect linki
 // Yashinu tarafından kodlanmıştır.
 
 client.on("ready", async () => {
-  client.user.setPresence({ activity: { name: durum }, status: "dnd" });
+  client.user.setPresence({ activity: { name: durum }, status: "online" });
   let botVoiceChannel = client.channels.cache.get(botVoiceChannelID);
   if (botVoiceChannel) botVoiceChannel.join().catch(err => console.error("Bot ses kanalına bağlanamadı!"));
   client.guilds.cache.forEach(guild => {
@@ -54,12 +54,12 @@ client.on("guildMemberAdd", async member => {
           fake: 1
         });
         newInviter.save().then(x => {
-          if (inviteChannel) inviteChannel.send(`${member} katıldı! **Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet ❌)`).catch(err => {});
+          if (inviteChannel) inviteChannel.send(`<a:2_seviye_sponsor:827839061724626946> ${member} katıldı! **Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet ❌)`).catch(err => {});
         });
       } else {
         inviterData.fake++
         inviterData.save().then(x => {
-          if (inviteChannel) inviteChannel.send(`${member} katıldı! **Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet ❌)`).catch(err => {});
+          if (inviteChannel) inviteChannel.send(`<a:2_seviye_sponsor:827839061724626946> ${member} katıldı! **Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet ❌)`).catch(err => {});
         });
       };
     });
@@ -76,12 +76,12 @@ client.on("guildMemberAdd", async member => {
             fake: 0
           });
           newInviter.save().then(x => {
-            if (inviteChannel) inviteChannel.send(`${member} katıldı! **Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet ✅)`).catch(err => {});
+            if (inviteChannel) inviteChannel.send(`<a:2_seviye_sponsor:827839061724626946> ${member} sunucuya katıldı! **Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet ✅)`).catch(err => {});
           });
         } else {
           inviterData.regular++;
           inviterData.save().then(x => {
-            if (inviteChannel) inviteChannel.send(`${member} katıldı! **Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet ✅)`).catch(err => {});
+            if (inviteChannel) inviteChannel.send(`<a:2_seviye_sponsor:827839061724626946> ${member} sunucuya katıldı! **Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet ✅)`).catch(err => {});
           });
         };
       });
@@ -114,12 +114,12 @@ client.on("guildMemberRemove", async member => {
             if (inviterData.regular-1 >= 0) inviterData.regular--;
           };
           inviterData.save().then(x => {
-            if (inviteChannel) inviteChannel.send(`\`${member.user.tag}\` ayrıldı! ${inviter.tag ? `**Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet)` : `Davetçi bulunamadı!`}`).catch(err => {});
+            if (inviteChannel) inviteChannel.send(`<a:crustercarpi:827837947965472809> \`${member.user.tag}\` ayrıldı! ${inviter.tag ? `**Davet eden**: ${inviter.id == member.guild.id ? member.guild.name : inviter.tag} (**${(x.regular ? x.regular : 0)+(x.bonus ? x.bonus : 0)}** davet)` : `Davetçi bulunamadı!`}`).catch(err => {});
           });
         };
       });
     } else {
-      if (inviteChannel) inviteChannel.send(`\`${member.user.tag}\` ayrıldı! Davetçi bulunamadı!`).catch(err => {});
+      if (inviteChannel) inviteChannel.send(`<a:crustercarpi:827837947965472809> \`${member.user.tag}\` ayrıldı! Davetçi bulunamadı!`).catch(err => {});
     };
   });
 });
@@ -158,7 +158,7 @@ client.on("message", async message => {
           if (inviterMembers.length) {
             dailyInvites = inviterMembers.filter(x => message.guild.members.cache.has(x.userID) && (Date.now() - message.guild.members.cache.get(x.userID).joinedTimestamp) < 1000*60*60*24).length;
           };
-          embed.setDescription(`Toplam **${inviterData.regular+inviterData.bonus}** davete sahip! (**${inviterData.regular}** gerçek, **${inviterData.bonus}** bonus, **${inviterData.fake}** fake, **${dailyInvites}** günlük)`);
+          embed.setDescription(`<a:2_seviye_sponsor:827839061724626946> Toplam **${inviterData.regular+inviterData.bonus}** davete sahip! (**${inviterData.regular}** gerçek, **${inviterData.bonus}** bonus, **${inviterData.fake}** fake, **${dailyInvites}** günlük)`);
           message.channel.send(embed);
         });
       };
@@ -181,10 +181,10 @@ client.on("message", async message => {
           bonus: sayi,
           fake: 0
         });
-        newInviter.save().then(x => message.reply(`Belirtilen üyenin bonus daveti **${sayi}** olarak ayarlandı!`));
+        newInviter.save().then(x => message.reply(`<a:2_seviye_sponsor:827839061724626946> Belirtilen üyenin bonus daveti **${sayi}** olarak ayarlandı!`));
       } else {
         eval(`inviterData.bonus = inviterData.bonus+${Number(sayi)}`);
-        inviterData.save().then(x => message.reply(`Belirtilen üyenin bonus davetine **${sayi}** eklendi!`));
+        inviterData.save().then(x => message.reply(`<a:2_seviye_sponsor:827839061724626946> Belirtilen üyenin bonus davetine **${sayi}** eklendi!`));
       };
     });
   };
@@ -200,7 +200,7 @@ client.on("message", async message => {
         Database.findOne({guildID: message.guild.id, userID: uye.id}, async (err, uyeData) => {
           if (!uyeData) uyeData = {inviterID: null};
           let inviterUye = client.users.cache.get(uyeData.inviterID) || {id: message.guild.id};
-          message.channel.send(embed.setDescription(`${uye} üyesini davet eden: ${inviterUye.id == message.guild.id ? message.guild.name : inviterUye.toString()}\n\nDavet ettiği üye bulunamadı!`));
+          message.channel.send(embed.setDescription(`<a:2_seviye_sponsor:827839061724626946> ${uye} üyesini davet eden: ${inviterUye.id == message.guild.id ? message.guild.name : inviterUye.toString()}\n\nDavet ettiği üye bulunamadı!`));
         });
       } else {
         let pages = pageArray.chunk(10);
@@ -255,7 +255,7 @@ client.on("message", async message => {
       pageArray = pageArray.filter(x => message.guild.members.cache.has(x.userID)).sort((uye1, uye2) => ((uye2.regular ? uye2.regular : 0)+(uye2.bonus ? uye2.bonus : 0))-((uye1.regular ? uye1.regular : 0)+(uye1.bonus ? uye1.bonus : 0)));
       if (err) console.log(err);
       if (!pageArray.length) {
-        message.channel.send(embed.setDescription("Davet verisi bulunamadı!"));
+        message.channel.send(embed.setDescription("<a:2_seviye_sponsor:827839061724626946> Davet verisi bulunamadı!"));
       } else {
         let pages = pageArray.chunk(10);
         if (!pages.length || !pages[currentPage - 1].length) return message.channel.send("Daveti olan üye bulunamadı!");
